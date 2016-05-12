@@ -1,0 +1,43 @@
+* simulations.py :
+
+- 1net(variables, nettype) :
+g = gen_net(n, m, k, nettype)
+fraccoopdegree, fraclinkdegree = evolvenet(g, tmax)
+analysenet(fraccoopdegree, fraclinkdegree)
+
+- heatmap(variables, nettype)
+
+
+* generatenets.py :
+
+- complete(n, m, k, nettype)
+- random(n, m, k, nettype)
+- scalefree(n, m, k, nettype)
+
+
+* montecarlo.py :
+
+- evolvenet(g, tmax) :
+payoffA, payoffP = payoffs(g)
+for t = 1:tmax :
+    if t < ttrans :
+        for i = randperm(1:n)
+            j = sort2nd(g, j)  
+            p = compare(i, j)
+            rand(0:1) < p ? update i -> j : pass
+        end
+        for j = randperm(1:m)
+            i = sort2nd(g, i)  
+            p = compare(j, i, g)
+            rand(0:1) < p ? update j -> i : pass
+        end
+    else :
+        fraccoopdegree = updatecoopdegree!(g, fraccoopdegree)
+        fraclinkdegree = updatelinkdegree!(g, fraclinkdegree)
+    end
+end
+return fraccoopdegree
+       fraclinkdegree
+
+
+* compare(, j, g) =  ( 1 - e^( -beta (invader - attacked) ) )^-1
